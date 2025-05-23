@@ -36,9 +36,15 @@ def split_by_white_lines(img, min_gap=20):
 @app.route("/cut", methods=["POST"])
 def cut_image():
     data = request.json
-    urls = data.get("urls")
     access_token = data.get("access_token")
     page_id = data.get("page_id")
+    urls = data.get("urls") or []
+
+    if len(urls) <= 1:
+    return jsonify({"error": "Không có đủ ảnh để xử lý."}), 400
+
+    # Bỏ ảnh đầu tiên
+    urls = urls[1:]
 
     if not urls or not access_token or not page_id:
         return jsonify({"error": "Missing urls, access_token or page_id"}), 400
