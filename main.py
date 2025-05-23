@@ -49,6 +49,7 @@ def cut_image():
             response = requests.get('https://truyen9.com/img' + url)
             img = Image.open(BytesIO(response.content)).convert("RGB")
         except Exception as e:
+            print('error:', str(e))
             continue  # bỏ qua ảnh lỗi
 
         regions = split_by_white_lines(img)
