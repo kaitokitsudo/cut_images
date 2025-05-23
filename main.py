@@ -3,6 +3,7 @@ from PIL import Image
 import numpy as np
 from io import BytesIO
 import requests
+import os
 
 app = Flask(__name__)
 
@@ -84,3 +85,7 @@ def cut_image():
 
     attached_media = [{"media_fbid": media_id} for media_id in uploaded_media_ids]
     return jsonify({"attached_media": attached_media})
+
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 10000))  # Render sẽ cung cấp PORT qua biến môi trường
+    app.run(host='0.0.0.0', port=port)
