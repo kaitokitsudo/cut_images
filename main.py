@@ -51,7 +51,6 @@ def cut_image():
         img = Image.open(BytesIO(response.content)).convert("RGB")
     except Exception as e:
         print('error:', str(e), url)
-        continue  # bỏ qua ảnh lỗi
 
     regions = split_by_white_lines(img)
     for (top, bottom) in regions:
