@@ -37,8 +37,11 @@ def split_by_white_lines(img, min_gap=20):
 def cut_image():
     data = request.json
     access_token = data.get("access_token")
+    print("access_token:", access_token)
     page_id = data.get("page_id")
     urls = data.get("urls") or []
+
+    print("Received URLs:", urls)
 
     if len(urls) <= 1:
         return jsonify({"error": "Không có đủ ảnh để xử lý."}), 400
