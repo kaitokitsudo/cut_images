@@ -6,7 +6,7 @@ import requests
 
 app = Flask(__name__)
 
-def is_white_row(row, threshold=240, white_ratio=1):
+def is_white_row(row, threshold=220, white_ratio=1):
     return np.mean(row) > threshold and (np.sum(row > threshold) / len(row)) > white_ratio
 
 def split_by_white_lines(img, min_gap=20):
