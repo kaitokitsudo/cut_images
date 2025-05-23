@@ -41,7 +41,7 @@ def cut_image():
     page_id = data.get("page_id")
     url = data.get("url")
 
-    if not urls or not access_token or not page_id:
+    if not url or not access_token or not page_id:
         return jsonify({"error": "Missing url, access_token or page_id"}), 400
 
     uploaded_media_ids = []
