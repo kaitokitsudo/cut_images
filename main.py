@@ -86,6 +86,7 @@ def cut_image():
             if 'id' in resp_json:
                 uploaded_media_ids.append(resp_json['id'])
 
+        break
         if len(uploaded_media_ids) >= 20:
             break
 
