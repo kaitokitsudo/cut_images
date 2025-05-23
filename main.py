@@ -6,7 +6,7 @@ import requests
 
 app = Flask(__name__)
 
-def is_white_row(row, threshold=250, white_ratio=0.98):
+def is_white_row(row, threshold=240, white_ratio=0.98):
     return np.mean(row) > threshold and (np.sum(row > threshold) / len(row)) > white_ratio
 
 def split_by_white_lines(img, min_gap=20):
@@ -37,7 +37,6 @@ def split_by_white_lines(img, min_gap=20):
 def cut_image():
     data = request.json
     access_token = data.get("access_token")
-    print("access_token:", access_token)
     page_id = data.get("page_id")
     url = data.get("url")
 
