@@ -6,7 +6,7 @@ import requests
 
 app = Flask(__name__)
 
-def is_white_row(row, threshold=200, white_ratio=0.99):
+def is_white_row(row, threshold=200, white_ratio=0.985):
     return np.mean(row) > threshold and (np.sum(row > threshold) / len(row)) > white_ratio
 
 def split_by_white_lines(img, min_gap=50):
@@ -48,6 +48,10 @@ def cut_image():
         print(url)
         response = requests.get('https://truyen9.com/img/' + url)
         img = Image.open(BytesIO(response.content)).convert("RGB")
+
+        max_height = 7000
+        if img.height > max_height:
+            img = img.crop((0, 0, img.width, max_height))  # giữ phần trên 7000px
     except Exception as e:
         print('error:', str(e), url)
 
