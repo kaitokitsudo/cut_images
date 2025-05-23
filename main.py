@@ -39,59 +39,46 @@ def cut_image():
     access_token = data.get("access_token")
     print("access_token:", access_token)
     page_id = data.get("page_id")
-    urls = data.get("urls") or []
-
-    print("Received URLs:", urls)
-
-    if len(urls) <= 1:
-        return jsonify({"error": "Không có đủ ảnh để xử lý."}), 400
-
-    # Bỏ ảnh đầu tiên
-    urls = urls[1:]
+    url = data.get("url")
 
     if not urls or not access_token or not page_id:
-        return jsonify({"error": "Missing urls, access_token or page_id"}), 400
+        return jsonify({"error": "Missing url, access_token or page_id"}), 400
 
     uploaded_media_ids = []
-    for url in urls:
-        try:
-            print(url)
-            response = requests.get('https://truyen9.com/img/' + url)
-            img = Image.open(BytesIO(response.content)).convert("RGB")
-        except Exception as e:
-            print('error:', str(e), url)
-            continue  # bỏ qua ảnh lỗi
+    try:
+        print(url)
+        response = requests.get('https://truyen9.com/img/' + url)
+        img = Image.open(BytesIO(response.content)).convert("RGB")
+    except Exception as e:
+        print('error:', str(e), url)
+        continue  # bỏ qua ảnh lỗi
 
-        regions = split_by_white_lines(img)
-        for (top, bottom) in regions:
-            if len(uploaded_media_ids) >= 20:
-                break
-
-            height = bottom - top
-            if height < 300:
-                continue
-
-            cropped = img.crop((0, top, img.width, bottom))
-            buffered = BytesIO()
-            cropped.save(buffered, format="JPEG", quality=80)
-            buffered.seek(0)
-
-            files = {
-                'source': ('image.jpg', buffered, 'image/jpeg')
-            }
-            payload = {
-                'access_token': access_token,
-                'published': 'false'
-            }
-            upload_url = f'https://graph.facebook.com/{page_id}/photos'
-            resp = requests.post(upload_url, files=files, data=payload)
-            resp_json = resp.json()
-            if 'id' in resp_json:
-                uploaded_media_ids.append(resp_json['id'])
-
-        break
+    regions = split_by_white_lines(img)
+    for (top, bottom) in regions:
         if len(uploaded_media_ids) >= 20:
             break
+
+        height = bottom - top
+        if height < 300:
+            continue
+
+        cropped = img.crop((0, top, img.width, bottom))
+        buffered = BytesIO()
+        cropped.save(buffered, format="JPEG", quality=80)
+        buffered.seek(0)
+
+        files = {
+            'source': ('image.jpg', buffered, 'image/jpeg')
+        }
+        payload = {
+            'access_token': access_token,
+            'published': 'false'
+        }
+        upload_url = f'https://graph.facebook.com/{page_id}/photos'
+        resp = requests.post(upload_url, files=files, data=payload)
+        resp_json = resp.json()
+        if 'id' in resp_json:
+            uploaded_media_ids.append(resp_json['id'])
 
     attached_media = [{"media_fbid": media_id} for media_id in uploaded_media_ids]
     return jsonify({"attached_media": attached_media})
