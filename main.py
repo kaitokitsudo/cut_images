@@ -41,7 +41,7 @@ def cut_image():
     urls = data.get("urls") or []
 
     if len(urls) <= 1:
-    return jsonify({"error": "Không có đủ ảnh để xử lý."}), 400
+        return jsonify({"error": "Không có đủ ảnh để xử lý."}), 400
 
     # Bỏ ảnh đầu tiên
     urls = urls[1:]
