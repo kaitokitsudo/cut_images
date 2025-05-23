@@ -46,7 +46,7 @@ def cut_image():
     uploaded_media_ids = []
     for url in urls:
         try:
-            response = requests.get(url)
+            response = requests.get('https://truyen9.com/img' + url)
             img = Image.open(BytesIO(response.content)).convert("RGB")
         except Exception as e:
             continue  # bỏ qua ảnh lỗi
