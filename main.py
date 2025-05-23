@@ -48,6 +48,10 @@ def cut_image():
 
     uploaded_media_ids = []
     for (top, bottom) in regions:
+        height = bottom - top
+        if height < 300:
+            continue  # bỏ qua ảnh thấp hơn 300px
+            
         cropped = img.crop((0, top, img.width, bottom))
         buffered = BytesIO()
         cropped.save(buffered, format="JPEG", quality=80)
@@ -68,7 +72,8 @@ def cut_image():
         else:
             return jsonify({"error": "Upload failed", "details": resp_json}), 500
 
-    return jsonify({"media_ids": uploaded_media_ids})
+    attached_media = [{"media_fbid": media_id} for media_id in uploaded_media_ids]
+    return jsonify({"attached_media": attached_media})
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=5000)
