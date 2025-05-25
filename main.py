@@ -34,7 +34,11 @@ def split_by_white_lines(img, min_gap=30):
         regions.append((start, img.height))
     return regions
 
-@app.route("/cut", methods=["POST"])
+@app.route("/", methods=["GET"])
+def ping():
+    return "OK", 200
+
+@app.route("/", methods=["POST"])
 def cut_image():
     data = request.json
     access_token = data.get("access_token")
