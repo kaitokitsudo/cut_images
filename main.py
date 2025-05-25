@@ -83,8 +83,8 @@ def cut_image():
         if 'id' in resp_json:
             uploaded_media_ids.append(resp_json['id'])
 
-    if len(uploaded_media_ids) > 2:
-        uploaded_media_ids = uploaded_media_ids[2:]
+    if len(uploaded_media_ids) > 3:
+        uploaded_media_ids = uploaded_media_ids[3:]
         
     attached_media = [{"media_fbid": media_id} for media_id in uploaded_media_ids]
     return jsonify({"attached_media": attached_media})
