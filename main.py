@@ -87,8 +87,8 @@ def cut_image():
         if 'id' in resp_json:
             uploaded_media_ids.append(resp_json['id'])
 
-    if len(uploaded_media_ids) > 3:
-        uploaded_media_ids = uploaded_media_ids[3:]
+    if len(uploaded_media_ids) > 4:
+        uploaded_media_ids = uploaded_media_ids[4:]
 
     uploaded_media_ids = uploaded_media_ids[:40]
         
