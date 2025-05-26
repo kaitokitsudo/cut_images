@@ -62,7 +62,7 @@ def cut_image():
 
     regions = split_by_white_lines(img)
     for (top, bottom) in regions:
-        if len(uploaded_media_ids) >= 20:
+        if len(uploaded_media_ids) >= 15:
             break
 
         height = bottom - top
@@ -87,10 +87,10 @@ def cut_image():
         if 'id' in resp_json:
             uploaded_media_ids.append(resp_json['id'])
 
-    if len(uploaded_media_ids) > 4:
-        uploaded_media_ids = uploaded_media_ids[4:]
+    # if len(uploaded_media_ids) > 5:
+    #     uploaded_media_ids = uploaded_media_ids[5:]
 
-    uploaded_media_ids = uploaded_media_ids[:40]
+    # uploaded_media_ids = uploaded_media_ids[:40]
         
     attached_media = [{"media_fbid": media_id} for media_id in uploaded_media_ids]
     return jsonify({"attached_media": attached_media})
