@@ -59,6 +59,7 @@ def cut_image():
             img = img.crop((0, 0, img.width, max_height))  # giữ phần trên 7000px
     except Exception as e:
         print('error:', str(e), url)
+        return jsonify({"attached_media": []})
 
     regions = split_by_white_lines(img)
     for (top, bottom) in regions:
